@@ -12,25 +12,28 @@ export default function RoutinesScreen() {
       <View className="mb-6 flex-row justify-between items-end">
         <View>
           <Text className="text-textMuted text-sm font-sans uppercase tracking-widest mb-1">Biblioteca</Text>
-          <Text className="text-textMain text-4xl font-condensed leading-none">Programas</Text>
+          <Text className="text-textMain text-4xl font-condensed leading-tight mb-2">Programas</Text>
+          <Text className="text-primary font-bold text-xs uppercase tracking-widest">1 Activo • 2 Guardados</Text>
         </View>
       </View>
 
       {/* ACTIVO: El Programa/Rutina Top Level Actual */}
       <View className="mb-8">
-        <View className="flex-row items-center justify-between mb-4">
-          <Text className="text-primary text-xs font-bold uppercase tracking-widest flex-row items-center">
-             PROGRAMA ACTIVO
-          </Text>
-          <TouchableOpacity>
-            <Ionicons name="settings-outline" size={20} color="#94A3B8" />
-          </TouchableOpacity>
-        </View>
-        
-        <View className="bg-surface border border-primary/30 rounded-3xl p-5 shadow-lg shadow-primary/5">
-          <View className="mb-5">
-            <Text className="text-textMain text-3xl font-condensed">PPL de Verano</Text>
-            <Text className="text-textMuted text-sm mt-1">3 Días Base</Text>
+        <View className="bg-surface border border-primary/30 rounded-3xl p-6 shadow-lg shadow-primary/5 relative overflow-hidden">
+          {/* Brillo sutil de programa activo */}
+          <View className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-10 -mt-10" />
+          
+          <View className="flex-row justify-between items-start mb-5">
+            <View>
+              <View className="bg-primary/10 px-2 py-1 rounded-md self-start mb-2 border border-primary/20">
+                <Text className="text-primary text-[10px] font-bold uppercase tracking-widest">Programa Activo</Text>
+              </View>
+              <Text className="text-textMain text-3xl font-condensed">PPL de Verano</Text>
+              <Text className="text-textMuted text-sm mt-1">3 Días Base</Text>
+            </View>
+            <TouchableOpacity className="w-10 h-10 bg-background rounded-full items-center justify-center border border-surfaceBorder shadow-sm">
+              <Ionicons name="settings-outline" size={18} color="#94A3B8" />
+            </TouchableOpacity>
           </View>
           
           <Text className="text-textMuted text-[10px] uppercase tracking-widest font-bold mb-3">Tus Entrenamientos (Días)</Text>

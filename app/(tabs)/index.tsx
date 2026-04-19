@@ -37,8 +37,8 @@ export default function HomeScreen() {
         <View className="flex-row justify-between">
           {[
             { id: 'L', status: 'completed' },
-            { id: 'M', status: 'completed' },
-            { id: 'X', status: 'past' },
+            { id: 'M', status: 'missed' },
+            { id: 'X', status: 'rest' },
             { id: 'J', status: 'current' },
             { id: 'V', status: 'future' },
             { id: 'S', status: 'future' },
@@ -53,9 +53,12 @@ export default function HomeScreen() {
             } else if (item.status === 'current') {
               containerStyle += "bg-surface border-2 border-dashed border-primary";
               textStyle += "text-primary";
-            } else if (item.status === 'past') {
-              containerStyle += "bg-background border border-surfaceBorder/40";
-              textStyle += "text-textMuted/40";
+            } else if (item.status === 'rest') {
+              containerStyle += "bg-sky-500/10 border border-sky-500/20";
+              textStyle += "text-sky-500";
+            } else if (item.status === 'missed') {
+              containerStyle += "bg-red-500/20";
+              textStyle += "text-red-400";
             } else {
               containerStyle += "bg-surface border border-surfaceBorder";
               textStyle += "text-textMuted";

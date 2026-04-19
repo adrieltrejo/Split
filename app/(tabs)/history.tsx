@@ -32,37 +32,48 @@ export default function HistoryScreen() {
         </View>
 
         {/* Calendar Grid */}
-        <View className="gap-3">
-          {/* Week 1 */}
-          <View className="flex-row justify-between px-1">
-            {[true, true, false, true, false, false, false].map((workedOut, i) => (
-              <View key={i} className={`w-7 h-7 rounded-full items-center justify-center ${workedOut ? 'bg-primary shadow-sm shadow-primary/30' : 'bg-background border border-surfaceBorder/50'}`} />
-            ))}
-          </View>
-          {/* Week 2 */}
-          <View className="flex-row justify-between px-1">
-            {[true, false, true, true, false, true, false].map((workedOut, i) => (
-              <View key={i} className={`w-7 h-7 rounded-full items-center justify-center ${workedOut ? 'bg-primary shadow-sm shadow-primary/30' : 'bg-background border border-surfaceBorder/50'}`} />
-            ))}
-          </View>
-          {/* Week 3 */}
-          <View className="flex-row justify-between px-1">
-            {[true, true, false, true, false, false, false].map((workedOut, i) => (
-              <View key={i} className={`w-7 h-7 rounded-full items-center justify-center ${workedOut ? 'bg-primary shadow-sm shadow-primary/30' : 'bg-background border border-surfaceBorder/50'}`} />
-            ))}
-          </View>
+        <View className="gap-3 mb-2">
+          {[
+            [ {d:1, s:'completed'}, {d:2, s:'completed'}, {d:3, s:'rest'}, {d:4, s:'completed'}, {d:5, s:'missed'}, {d:6, s:'completed'}, {d:7, s:'rest'} ],
+            [ {d:8, s:'completed'}, {d:9, s:'completed'}, {d:10, s:'rest'}, {d:11, s:'completed'}, {d:12, s:'completed'}, {d:13, s:'rest'}, {d:14, s:'missed'} ],
+            [ {d:15, s:'completed'}, {d:16, s:'completed'}, {d:17, s:'rest'}, {d:18, s:'completed', selected: true}, {d:19, s:'future'}, {d:20, s:'future'}, {d:21, s:'future'} ],
+            [ {d:22, s:'future'}, {d:23, s:'future'}, {d:24, s:'future'}, {d:25, s:'future'}, {d:26, s:'future'}, {d:27, s:'future'}, {d:28, s:'future'} ],
+            [ {d:29, s:'future'}, {d:30, s:'future'}, {d:null, s:'future'}, {d:null, s:'future'}, {d:null, s:'future'}, {d:null, s:'future'}, {d:null, s:'future'} ]
+          ].map((week, weekIndex) => (
+            <View key={`week-${weekIndex}`} className="flex-row justify-between px-1">
+              {week.map((day, dayIndex) => {
+                let style = "w-8 h-8 rounded-full items-center justify-center ";
+                let textStyle = "text-sm font-bold font-condensed ";
+                if (day.s === 'completed') { style += 'bg-primary shadow-sm shadow-primary/30'; textStyle += 'text-background'; }
+                else if (day.s === 'rest') { style += 'bg-sky-500/10 border border-sky-500/20'; textStyle += 'text-sky-500'; }
+                else if (day.s === 'missed') { style += 'bg-red-500/20'; textStyle += 'text-red-400'; }
+                else { textStyle += 'text-textMuted/40'; }
+                
+                return (
+                  <View key={`day-${dayIndex}`} className="w-8 items-center relative">
+                    <View className={style}>
+                      {day.d ? <Text className={textStyle}>{day.d}</Text> : null}
+                    </View>
+                    {(day as any).selected && (
+                      <View className="absolute -bottom-2 w-1.5 h-1.5 rounded-full bg-textMain" />
+                    )}
+                  </View>
+                );
+              })}
+            </View>
+          ))}
         </View>
       </View>
 
-      {/* Filters */}
+      {/* Filters (Active State) */}
       <View className="mb-6">
         <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row gap-3">
           <TouchableOpacity className="bg-primary/20 border border-primary/50 px-5 py-2 rounded-full">
-            <Text className="text-primary font-bold text-xs uppercase tracking-widest">Todos</Text>
+            <Text className="text-primary font-bold text-xs uppercase tracking-widest">Jueves 14</Text>
           </TouchableOpacity>
           <TouchableOpacity className="bg-surface border border-surfaceBorder px-5 py-2 rounded-full flex-row items-center gap-1">
-            <Ionicons name="trophy" size={12} color="#FBBF24" />
-            <Text className="text-textMuted font-bold text-xs uppercase tracking-widest">Récords</Text>
+            <Ionicons name="close" size={14} color="#94A3B8" />
+            <Text className="text-textMuted font-bold text-xs uppercase tracking-widest">Limpiar Filtro</Text>
           </TouchableOpacity>
         </ScrollView>
       </View>
@@ -70,51 +81,19 @@ export default function HistoryScreen() {
       {/* Timeline Feed */}
       <View className="gap-5">
         
-        {/* Session Card 1 (With PRs) */}
-        <TouchableOpacity className="bg-surface border border-surfaceBorder rounded-3xl p-5 shadow-lg shadow-black/20">
+        {/* Session Card (Filtered View) */}
+        <TouchableOpacity className="bg-surface border border-primary/40 rounded-3xl p-5 shadow-lg shadow-primary/5 relative overflow-hidden">
+          {/* Subtle glow for the filtered card */}
+          <View className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full blur-3xl -mr-10 -mt-10" />
+
           <View className="flex-row justify-between items-start mb-4">
             <View>
-              <Text className="text-primary text-[10px] font-bold uppercase tracking-widest mb-1">Ayer, 7:00 AM</Text>
-              <Text className="text-textMain text-2xl font-condensed">Push Day <Text className="text-textMuted font-sans text-sm tracking-normal">• PPL de Verano</Text></Text>
-            </View>
-            <View className="bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-lg flex-row items-center gap-1 shadow-sm shadow-amber-500/10">
-              <Ionicons name="trophy" size={12} color="#FBBF24" />
-              <Text className="text-amber-500 font-bold text-[10px] uppercase tracking-widest">2 PRs</Text>
-            </View>
-          </View>
-
-          <View className="flex-row gap-6 mb-5">
-            <View>
-              <Text className="text-textMuted text-[10px] uppercase tracking-widest mb-0.5">Duración</Text>
-              <Text className="text-textMain font-bold">1h 15m</Text>
-            </View>
-            <View>
-              <Text className="text-textMuted text-[10px] uppercase tracking-widest mb-0.5">Volumen</Text>
-              <Text className="text-textMain font-bold">14.2k kg</Text>
-            </View>
-          </View>
-
-          {/* Exercise Summary */}
-          <View className="bg-background rounded-2xl p-4 gap-3 border border-surfaceBorder/50">
-            <View className="flex-row justify-between items-center">
-              <Text className="text-textMain text-sm"><Text className="text-primary font-bold">3x</Text> Barbell Bench Press</Text>
-              <Text className="text-textMuted text-xs font-semibold">100kg x 5</Text>
-            </View>
-            <View className="h-[1px] bg-surfaceBorder/50 w-full" />
-            <View className="flex-row justify-between items-center">
-              <Text className="text-textMain text-sm"><Text className="text-primary font-bold">3x</Text> Incline DB Press</Text>
-              <Text className="text-textMuted text-xs font-semibold">36kg x 8</Text>
-            </View>
-            <Text className="text-textMuted text-xs italic mt-1">+ 4 ejercicios más...</Text>
-          </View>
-        </TouchableOpacity>
-
-        {/* Session Card 2 */}
-        <TouchableOpacity className="bg-surface border border-surfaceBorder rounded-3xl p-5 shadow-lg shadow-black/20">
-          <View className="flex-row justify-between items-start mb-4">
-            <View>
-              <Text className="text-textMuted text-[10px] font-bold uppercase tracking-widest mb-1">Jueves, 6:30 AM</Text>
+              <Text className="text-primary text-[10px] font-bold uppercase tracking-widest mb-1">Jueves 14, 6:30 AM</Text>
               <Text className="text-textMain text-2xl font-condensed">Pull Day <Text className="text-textMuted font-sans text-sm tracking-normal">• PPL de Verano</Text></Text>
+            </View>
+            <View className="bg-primary/10 border border-primary/30 px-3 py-1.5 rounded-lg flex-row items-center gap-1 shadow-sm shadow-primary/10">
+              <Ionicons name="checkmark-circle" size={12} color="#22C55E" />
+              <Text className="text-primary font-bold text-[10px] uppercase tracking-widest">Completado</Text>
             </View>
           </View>
 
